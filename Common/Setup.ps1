@@ -8,8 +8,8 @@
 .INPUTS
   None
 .OUTPUTS
-  The following environment variables are configured upon completion:
-      - subscriptionId
+  The following variables are configured upon completion:
+      - AZURE_LOCATION
 .NOTES
   Version:        1.0
   Author:         Eric Wu
@@ -32,6 +32,8 @@ Install-Module -Name Az -AllowClobber -Scope CurrentUser
 # require this.
 Write-Host "Allow Azure Powershell to run (Choose Yes to all please...)"
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+New-Variable -Name "AZURE_LOCATION" -Value "Canada Central"
 
 # Sign to Azure for this session
 Connect-AzAccount
