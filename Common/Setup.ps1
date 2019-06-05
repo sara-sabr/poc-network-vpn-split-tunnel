@@ -25,16 +25,27 @@
 ## ============================================================================
 
 # Install 
-Write-Host "Installing Azure Powershell (Choose Yes to all please...)"
+Write-Progress -Id 1 -Activity "Setup Azure Tooling" -Status "Installing Azure Powershell (Choose Yes to all please...)" -PercentComplete 0
 Install-Module -Name Az -AllowClobber -Scope CurrentUser
+Write-Progress -Id 1 -Activity "Setup Azure Tooling" -Status "Installed Azure Powershell" -PercentComplete 20
 
 # Allow remote signed to run as by default that's blocked. Azure libraries 
 # require this.
-Write-Host "Allow Azure Powershell to run (Choose Yes to all please...)"
+Write-Progress -Id 1 -Activity "Setup Azure Tooling" -Status "Configure Powershell settings" -PercentComplete 30
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
-New-Variable -Name "AZURE_LOCATION" -Value "Canada Central"
+New-Variable -Name "AZURE_LOCATION" -Value "Canada Central" -Scope Global -Force
+
+Write-Progress -Id 1 -Activity "Setup Azure Tooling" -Status "Prompt to login to Azure" -PercentComplete 50
 
 # Sign to Azure for this session
-Connect-AzAccount
+$IS_LOGGED_IN = Get-AzContext
+
+if (!($IS_LOGGED_IN))
+{
+  Connect-AzAccount
+}
+
+Write-Progress -Id 1 -Activity "Setup Azure Tooling" -Status "Connected to Azure" -PercentComplete 100
+
 
