@@ -4,4 +4,4 @@
 
 # But not these files and folders
 !.gitignore
-!*/README.md
+!README.md
