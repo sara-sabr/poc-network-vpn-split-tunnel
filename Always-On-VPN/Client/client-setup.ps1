@@ -57,8 +57,6 @@ $ProfileXML =
 </DomainNameInformation>
 </VPNProfile>'
 
-$ProfileXML | Out-File -FilePath ($env:USERPROFILE + '\desktop\VPN_Profile.xml')
-
 # Properly escape the variables to be used later.
 $ProfileNameEscaped = $ProfileName -replace ' ', '%20'
 $ProfileXML = $ProfileXML -replace '<', '&lt;'
@@ -73,7 +71,7 @@ $className = "MDM_VPNv2_01"
 # Get current user SID
 try
 {
-    $username = Gwmi -Class Win32_ComputerSystem | select username
+    $username = Get-WmiObject -Class Win32_ComputerSystem | Select-Object username
     $objuser = New-Object System.Security.Principal.NTAccount($username.username)
     $sid = $objuser.Translate([System.Security.Principal.SecurityIdentifier])
     $SidValue = $sid.Value
@@ -139,8 +137,6 @@ catch [Exception]
     Write-Host "$Message"
     exit
 }
-
-$Script | Out-File -FilePath ($env:USERPROFILE + '\desktop\VPN_Profile.ps1')
 
 $Message = "Script Complete"
 Write-Host "$Message"
