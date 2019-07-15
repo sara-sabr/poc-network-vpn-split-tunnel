@@ -47,14 +47,58 @@ $ProfileXML =
         </Eap>
     </Authentication>
     <RoutingPolicyType>SplitTunnel</RoutingPolicyType>
+    <!-- disable the addition of a class-based route for the assigned IP address on the VPN interface -->
+    <DisableClassBasedDefaultRoute>true</DisableClassBasedDefaultRoute>
   </NativeProfile>
-  <AlwaysOn>true</AlwaysOn>
+
+  <!-- Inverse split tunneling. Everything by default goes through VPN -->
+  <Route>
+    <Address>0.0.0.0</Address>
+    <PrefixSize>0</PrefixSize>
+  </Route>
+
+  <!-- Some Google IP -->
+  <Route>
+    <Address>173.194.0.0</Address>  <!-- youtube.com -->
+    <PrefixSize>16</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>
+  </Route>
+  <Route>
+    <Address>172.217.13.0</Address> <!-- youtube.com -->
+    <PrefixSize>24</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>
+  </Route>
+  <Route>
+    <Address>8.8.8.8</Address> <!-- Google DNS -->
+    <PrefixSize>32</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>
+  </Route>
+  <Route>
+    <Address>96.21.0.0</Address> <!-- *.googlevideo.com (Videotron) -->
+    <PrefixSize>24</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>
+  </Route>
+  <Route>
+    <Address>96.22.0.0</Address> <!-- *.googlevideo.com (Videotron) -->
+    <PrefixSize>24</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>
+  </Route>
+  <Route>
+    <Address>209.85.0.0</Address> <!-- *.googlevideo.com -->
+    <PrefixSize>24</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>
+  </Route>
+
+  <AlwaysOn>false</AlwaysOn>
   <RememberCredentials>true</RememberCredentials>
   <TrustedNetworkDetection>' + $TrustedNetwork + '</TrustedNetworkDetection>
   <DomainNameInformation>
-<DomainName>' + $InternalDomainName + '</DomainName>
-<DnsServers>' + $DnsServers + '</DnsServers>
-</DomainNameInformation>
+    <DomainName>' + $InternalDomainName + '</DomainName>
+    <DnsServers>' + $DnsServers + '</DnsServers>
+  </DomainNameInformation>
+  <DomainNameInformation>  
+    <DomainName>youtube.com</DomainName>  
+  </DomainNameInformation>    
 </VPNProfile>'
 
 # Properly escape the variables to be used later.
