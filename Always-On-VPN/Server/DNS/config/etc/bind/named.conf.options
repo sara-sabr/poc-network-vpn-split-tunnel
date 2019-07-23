@@ -1,0 +1,38 @@
+acl "trusted" {
+   172.17.0.0/16;
+   localhost;
+   localnets;
+};
+
+options {
+  directory "/var/bind";
+  pid-file "/var/run/named/named.pid";
+  dnssec-validation auto;
+  auth-nxdomain no;
+  listen-on 53 { any; };
+  allow-transfer { none; };      # disable zone transfers by default
+  recursion yes;                 # enables resursive queries
+  allow-recursion { trusted; };  # allows recursive queries from "trusted" clients
+  forwarders { 
+    8.8.8.8; 8.8.4.4; # Google DNS
+  };
+  response-policy { zone "rpz-allowinternetroutes"; };
+};
+
+logging {
+  channel rpz-queries {
+    file "/var/log/bind/rpz.log" versions 10 size 500k;
+    severity info;
+  };
+  category rpz {
+    rpz-queries;
+  };
+};
+
+zone "rpz-allowinternetroutes" IN {
+  type master;
+  file "/etc/bind/zones/rpz-allowinternetroutes";
+  notify yes;
+  also-notify { 8.8.8.8; };
+  allow-transfer { 8.8.4.4; };  
+};

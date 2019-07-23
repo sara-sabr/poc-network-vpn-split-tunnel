@@ -1,0 +1,16 @@
+$TTL    604800
+@       IN      SOA     localhost. root.localhost. (
+                        20190723        ; Serial
+                        1h              ; Refresh
+                        30m             ; Retry
+                        1w              ; Expire
+                        30m )       ; Negative Cache TTL       
+;
+; name servers - NS records
+    IN      NS      dns.google.
+;  A records
+youtube-ui.l.google.com. IN      A       172.217.13.110
+youtube-ui.l.google.com. IN      A       172.217.13.206
+youtube-ui.l.google.com. IN      A       172.217.13.174
+youtube-ui.l.google.com. IN      A       172.217.13.142
+
