@@ -7,8 +7,9 @@ $TTL    604800
                         30m )       ; Negative Cache TTL       
 ;
 ; name servers - NS records
-    IN      NS      dns.google.
+    IN      NS      localhost.
 ;  A records
+localhost                IN      A       127.0.0.1            
 youtube-ui.l.google.com. IN      A       172.217.13.110
 youtube-ui.l.google.com. IN      A       172.217.13.206
 youtube-ui.l.google.com. IN      A       172.217.13.174
