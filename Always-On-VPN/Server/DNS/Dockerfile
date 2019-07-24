@@ -21,5 +21,5 @@ RUN apk --no-cache add --update unbound  \
 # DNS port
 EXPOSE 53
 
-CMD ["/usr/sbin/unbound"]
+ENTRYPOINT [ "/usr/sbin/unbound" , "-d" ]
 
