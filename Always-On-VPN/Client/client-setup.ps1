@@ -84,7 +84,7 @@ $ProfileXML =
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
   <Route>
-    <Address>209.85.0.0</Address> <!-- *.googlevideo.com -->
+    <Address>209.85.225.0</Address> <!-- *.googlevideo.com -->
     <PrefixSize>24</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
