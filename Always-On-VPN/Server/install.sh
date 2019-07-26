@@ -24,9 +24,16 @@ git clone https://github.com/sara-sabr/poc-network-vpn-split-tunnel-Azure.git
 cd poc-network-vpn-split-tunnel-Azure/
 pushd .
 
+# Get the server's IP address, assuming eth0 is the accessible IP. 
+listenIP=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
+
+# Build the DNS Docker image (Move this to a docker repository)
 cd Always-On-VPN/Server/DNS
 sudo docker build . -t esdc-rp-poc-vpn-dns:latest
-sudo docker run  -p 53:53/udp  esdc-rp-poc-vpn-dns:latest
+
+# Bring up DNS docker
+dockerPort="$listenIP:53"
+sudo docker run  -d -p $dockerPort:53/udp  esdc-rp-poc-vpn-dns:latest
 
 
 
