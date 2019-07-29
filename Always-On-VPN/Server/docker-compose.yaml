@@ -3,6 +3,21 @@ services:
   itrp.poc.network.vpn:
     build: 
       context: ./VPN/
+    depends_on:
+      - dns
     image: itrp.poc.network.vpn:latest
+    volumes:
+      - ./config:/poc-data/
+    ports:
+    - "500:500/udp"
+    - "4000:4000/udp"
+  dns:
+    build: 
+      context: ./DNS/
+    image: itrp.poc.network.dns:latest
+    ports:
+    - "53:53/udp"
+    - "53:53/tcp"
+    
 
 
