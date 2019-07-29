@@ -10,13 +10,13 @@ services:
       - ./config:/poc-data/
     ports:
       - "${DOCKER_PUBLIC_IP}:500:500/udp"
-      - "${DOCKER_PUBLIC_IP}:4000:4000/udp"
+      - "${DOCKER_PUBLIC_IP}:4500:4500/udp"
     environment:
       - ROOT_CN=POCVPN
       - SERVER_DOMAIN=${SERVER_DOMAIN}
       - VPN_IP_CDR=${VPN_IP_CDR}
       - VPN_DNS=${DOCKER_PUBLIC_IP}
-  dns:
+  itrp.poc.network.dns:
     build: 
       context: ./DNS/
     image: itrp.poc.network.dns:latest

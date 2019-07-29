@@ -8,7 +8,8 @@ sudo systemctl start docker
 sudo systemctl enable docker
 
 sudo ufw allow ssh
-sudo ufw allow dns
+sudo ufw allow 53
+sudo ufw allow 500,4500/udp
 sudo ufw enable 
 
 # Install Git to do the pull down since we have no docker repo
