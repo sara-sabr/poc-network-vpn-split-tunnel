@@ -24,12 +24,10 @@
 param([String]$DomainName, [String]$DnsServers)
 
 # Settings
-$ProfileName = 'Always-On VPN PoC'
+$ProfileName = 'Always-On-VPN-PoC'
 $Servers = 'pocvpn.' + $DomainName
 $DnsSuffix = 'corp.' + $DomainName
 $InternalDomainName = '.corp.' + $DomainName
-$TrustedNetwork = 'corp.' + $DomainName
-
 
 # Profile XML
 $ProfileXML =
@@ -84,21 +82,26 @@ $ProfileXML =
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
   <Route>
-    <Address>209.85.0.0</Address> <!-- *.googlevideo.com -->
+    <Address>209.85.225.0</Address> <!-- *.googlevideo.com -->
     <PrefixSize>24</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
 
   <AlwaysOn>false</AlwaysOn>
   <RememberCredentials>true</RememberCredentials>
-  <TrustedNetworkDetection>' + $TrustedNetwork + '</TrustedNetworkDetection>
   <DomainNameInformation>
     <DomainName>' + $InternalDomainName + '</DomainName>
     <DnsServers>' + $DnsServers + '</DnsServers>
   </DomainNameInformation>
-  <DomainNameInformation>  
-    <DomainName>youtube.com</DomainName>  
-  </DomainNameInformation>    
+  <TrafficFilter>
+    <!-- Send everyting to VPN when using Firefox -->
+    <App>
+      <Id>%ProgramFiles%\Mozilla Firefox\firefox.exe</Id>
+    </App>
+    <Protocol>6</Protocol>
+    <RemoteAddressRanges>1.1.1.1-255.255.255.255</RemoteAddressRanges>
+    <RoutingPolicyType>ForceTunnel</RoutingPolicyType> 
+  </TrafficFilter>
 </VPNProfile>'
 
 # Properly escape the variables to be used later.
