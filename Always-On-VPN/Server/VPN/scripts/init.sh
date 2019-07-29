@@ -9,12 +9,12 @@ VPN_DNS=$4
 
 # Script Variable
 # -----------------------------------------------------------------------------
-PKI_SOURCE_DIRECTORY="/data/pki"
+PKI_SOURCE_DIRECTORY="/poc-data/pki"
 PKI_PRIVATE_CA_KEY="private/ca-key.pem"
 PKI_PRIVATE_CA_CERT="private/ca-cert.pem"
 PKI_PRIVATE_SERVER_KEY="private/server-key.pem"
 PKI_PRIVATE_SERVER_CERT="private/server-cert.pem"
-SWAN_SOURCE_DIRECTORY="/data/swan"
+SWAN_SOURCE_DIRECTORY="/poc-data/swan"
 SWAN_IPSEC_CONF="ipsec.conf"
 SWAN_IPSEC_SECRETS="ipsec.secrets"
 
@@ -96,6 +96,8 @@ conn ikev2-vpn
     rightdns=$VPN_DNS
     rightsendcert=never
     eap_identity=%identity
+    ike=aes256-aes128-sha256-sha1-modp3072-modp2048-modp1024
+    esp=aes256-sha256,aes256-sha1,3des-sha1!
 " >> $SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_CONF   
 fi
 
@@ -112,3 +114,4 @@ pocvpn : EAP \"$PASSWORD\"" >> $SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_SECRETS
 fi
 
 cp $SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_SECRETS /etc/$SWAN_IPSEC_SECRETS
+ipsec start --nofork
