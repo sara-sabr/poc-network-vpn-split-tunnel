@@ -28,8 +28,6 @@ $ProfileName = 'Always-On-VPN-PoC'
 $Servers = 'pocvpn.' + $DomainName
 $DnsSuffix = 'corp.' + $DomainName
 $InternalDomainName = '.corp.' + $DomainName
-$TrustedNetwork = 'corp.' + $DomainName
-
 
 # Profile XML
 $ProfileXML =
@@ -91,14 +89,19 @@ $ProfileXML =
 
   <AlwaysOn>false</AlwaysOn>
   <RememberCredentials>true</RememberCredentials>
-  <TrustedNetworkDetection>' + $TrustedNetwork + '</TrustedNetworkDetection>
   <DomainNameInformation>
     <DomainName>' + $InternalDomainName + '</DomainName>
     <DnsServers>' + $DnsServers + '</DnsServers>
   </DomainNameInformation>
-  <DomainNameInformation>  
-    <DomainName>youtube.com</DomainName>  
-  </DomainNameInformation>    
+  <TrafficFilter>
+    <!-- Send everyting to VPN when using Firefox -->
+    <App>
+      <Id>%ProgramFiles%\Mozilla Firefox\firefox.exe</Id>
+    </App>
+    <Protocol>6</Protocol>
+    <RemoteAddressRanges>1.1.1.1-255.255.255.255</RemoteAddressRanges>
+    <RoutingPolicyType>ForceTunnel</RoutingPolicyType> 
+  </TrafficFilter>
 </VPNProfile>'
 
 # Properly escape the variables to be used later.
