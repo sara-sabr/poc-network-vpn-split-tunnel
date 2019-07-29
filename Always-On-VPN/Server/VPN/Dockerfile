@@ -7,7 +7,7 @@ LABEL maintainer="Eric Wu (https://github.com/e-wu)"
 
 COPY scripts /poc-setup/scripts/
 
-RUN apk --no-cache add --update strongswan \ 
+RUN apk --no-cache add --update iptables openssl strongswan util-linux \ 
     && chmod 700 /poc-setup/scripts/init.sh    
 
 # DNS port
