@@ -18,18 +18,24 @@ SWAN_SOURCE_DIRECTORY="/poc-data/swan"
 SWAN_IPSEC_CONF="ipsec.conf"
 SWAN_IPSEC_SECRETS="ipsec.secrets"
 
+echo "========================================================================"
+echo "Configuring ..."
+echo "========================================================================"
+
 # Script body
 # -----------------------------------------------------------------------------
 mkdir -p $PKI_SOURCE_DIRECTORY/cacerts $PKI_SOURCE_DIRECTORY/certs $PKI_SOURCE_DIRECTORY/private
 
 # Private CA key
 if [ ! -f "$PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_CA_KEY" ]; then
+    echo "    Creating Private Root Key ..."
     ipsec pki --gen --type rsa --size 4096 --outform pem \
     > $PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_CA_KEY
 fi
 
 # Private CA certificate
 if [ ! -f "$PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_CA_CERT" ]; then
+    echo "    Creating Private Root Certificate ..."
     ipsec pki --self --ca --lifetime 3650 --in $PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_CA_KEY \
     --type rsa --dn "CN=$ROOT_CN" --outform pem \
     > $PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_CA_CERT
@@ -37,12 +43,14 @@ fi
 
 # Private Server Key
 if [ ! -f "$PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_SERVER_KEY" ]; then
+    echo "    Creating Private Server Key ..."
     ipsec pki --gen --type rsa --size 4096 --outform pem \
     > $PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_SERVER_KEY
 fi
 
 # Private Server certificate
 if [ ! -f "$PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_SERVER_CERT" ]; then
+    echo "    Creating Private Server Certificate ..."
     ipsec pki --pub --in $PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_SERVER_KEY  --type rsa \
     | ipsec pki --issue --lifetime 1825 \
         --cacert $PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_CA_CERT \
@@ -58,6 +66,7 @@ if [ ! -f "$PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_CA_KEY" ] |
    [ ! -f "$PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_SERVER_KEY" ] |
    [ ! -f "$PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_SERVER_CERT" ]; then
     >&2 echo "PKI keys are invalid. Provide valid keys or ensure the directory is empty."
+    echo "    [WARNING] Misconfigured. Exiting."
     exit 1
 fi
 
@@ -69,6 +78,7 @@ mkdir -p $SWAN_SOURCE_DIRECTORY
 # ipsec.conf file
 # -------------------
 if [ ! -f "$SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_CONF" ]; then
+    echo "    Create ipsec.conf ..."
     echo "
 config setup
     charondebug=\"ike 1, knl 1, cfg 0\"
@@ -106,6 +116,7 @@ cp $SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_CONF /etc/$SWAN_IPSEC_CONF
 # ipsec.secrets file
 # -------------------
 if [ ! -f "$SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_SECRETS" ]; then
+    echo "    Create ipsec.secrets ..."
     # Install pwgen to make our lives easier.
     apk --no-cache add --update pwgen 
     PASSWORD=$(pwgen 16 1)
@@ -114,4 +125,9 @@ pocvpn : EAP \"$PASSWORD\"" >> $SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_SECRETS
 fi
 
 cp $SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_SECRETS /etc/$SWAN_IPSEC_SECRETS
+
+echo "========================================================================"
+echo "VPN Server Starting ..."
+echo "========================================================================"
+
 ipsec start --nofork
