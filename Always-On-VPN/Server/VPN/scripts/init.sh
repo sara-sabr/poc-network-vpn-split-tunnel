@@ -5,9 +5,9 @@
 # -----------------------------------------------------------------------------
 PKI_SOURCE_DIRECTORY="/poc-data/pki"
 PKI_PRIVATE_CA_KEY="private/ca-key.pem"
-PKI_PRIVATE_CA_CERT="private/ca-cert.pem"
+PKI_PRIVATE_CA_CERT="cacerts/ca-cert.pem"
 PKI_PRIVATE_SERVER_KEY="private/server-key.pem"
-PKI_PRIVATE_SERVER_CERT="private/server-cert.pem"
+PKI_PRIVATE_SERVER_CERT="certs/server-cert.pem"
 SWAN_SOURCE_DIRECTORY="/poc-data/swan"
 SWAN_IPSEC_CONF="ipsec.conf"
 SWAN_IPSEC_SECRETS="ipsec.secrets"
