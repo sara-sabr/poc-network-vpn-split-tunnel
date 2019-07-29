@@ -4,7 +4,7 @@ services:
     build: 
       context: ./VPN/
     depends_on:
-      - dns
+      - itrp.poc.network.dns
     image: itrp.poc.network.vpn:latest
     volumes:
       - ./config:/poc-data/
