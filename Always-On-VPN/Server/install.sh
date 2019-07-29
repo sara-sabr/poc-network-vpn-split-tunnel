@@ -22,4 +22,5 @@ cd ~/poc-setup
 git clone https://github.com/sara-sabr/poc-network-vpn-split-tunnel-Azure.git
 
 sudo chmod 700 start.sh
+sudo chmod 700 stop.sh
 sudo ./start.sh
