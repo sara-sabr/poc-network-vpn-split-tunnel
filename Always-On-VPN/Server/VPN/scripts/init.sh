@@ -127,5 +127,6 @@ cp $SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_SECRETS /etc/$SWAN_IPSEC_SECRETS
 echo "========================================================================"
 echo "VPN Server Starting ..."
 echo "========================================================================"
+iptables -t nat -A POSTROUTING -s ${VPN_IP_CDR} -o eth0 -j MASQUERADE
 
 ipsec start --nofork
