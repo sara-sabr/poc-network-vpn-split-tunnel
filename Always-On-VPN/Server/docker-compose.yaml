@@ -6,6 +6,7 @@ services:
     depends_on:
       - itrp.poc.network.dns
     image: itrp.poc.network.vpn:latest
+    privileged: true
     volumes:
       - ./config:/poc-data/
     ports:
