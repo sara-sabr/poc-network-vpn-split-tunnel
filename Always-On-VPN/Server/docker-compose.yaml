@@ -17,6 +17,8 @@ services:
       - SERVER_DOMAIN=${SERVER_DOMAIN}
       - VPN_IP_CDR=${VPN_IP_CDR}
       - VPN_DNS=${DOCKER_PUBLIC_IP}
+    networks:
+      hostnet: {}
   itrp.poc.network.dns:
     build: 
       context: ./DNS/
@@ -24,4 +26,7 @@ services:
     ports:
       - "${DOCKER_PUBLIC_IP}:53:53/udp"
       - "${DOCKER_PUBLIC_IP}:53:53/tcp"
-
+networks:
+  hostnet:
+    external: true
+    name: host
