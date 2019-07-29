@@ -20,6 +20,10 @@ echo "========================================================================"
 # -----------------------------------------------------------------------------
 mkdir -p $PKI_SOURCE_DIRECTORY/cacerts $PKI_SOURCE_DIRECTORY/certs $PKI_SOURCE_DIRECTORY/private
 
+if [ ! -f "$PKI_SOURCE_DIRECTORY" ]; then
+    echo "Directory somehow does not exist?"
+fi
+
 # Private CA key
 if [ ! -f "$PKI_SOURCE_DIRECTORY/$PKI_PRIVATE_CA_KEY" ]; then
     echo "    Creating Private Root Key ..."
