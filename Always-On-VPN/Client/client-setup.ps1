@@ -24,7 +24,7 @@
 param([String]$DomainName, [String]$DnsServers)
 
 # Settings
-$ProfileName = 'Always-On VPN PoC'
+$ProfileName = 'Always-On-VPN-PoC'
 $Servers = 'pocvpn.' + $DomainName
 $DnsSuffix = 'corp.' + $DomainName
 $InternalDomainName = '.corp.' + $DomainName
