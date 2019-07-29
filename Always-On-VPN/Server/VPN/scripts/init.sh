@@ -20,7 +20,7 @@ echo "========================================================================"
 # -----------------------------------------------------------------------------
 mkdir -p $PKI_SOURCE_DIRECTORY/cacerts $PKI_SOURCE_DIRECTORY/certs $PKI_SOURCE_DIRECTORY/private
 
-if [ ! -f "$PKI_SOURCE_DIRECTORY" ]; then
+if [ ! -d "$PKI_SOURCE_DIRECTORY" ]; then
     echo "Directory somehow does not exist?"
 fi
 
