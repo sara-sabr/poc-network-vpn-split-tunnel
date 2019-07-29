@@ -1,11 +1,11 @@
 #!/bin/sh
 
-if [ -z "$SERVER_DOMAIN" ] then
+if [ -z "$SERVER_DOMAIN" ]; then
     echo "Please set environment variable 'SERVER_DOMAIN'."
     exit
 fi
 
-if [ -z "$VPN_IP_CDR" ] then
+if [ -z "$VPN_IP_CDR" ]; then
     echo "Please set environment variable 'VPN_IP_CDR'. Also, please make sure the mask is greater than /24."
     exit
 fi
