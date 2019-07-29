@@ -9,13 +9,13 @@ services:
     volumes:
       - ./config:/poc-data/
     ports:
-      - "${DOCKER_PUBLIC_IP:?err}:500:500/udp"
+      - "${DOCKER_PUBLIC_IP}:500:500/udp"
       - "${DOCKER_PUBLIC_IP}:4000:4000/udp"
     environment:
-      - ROOT_CN=${ROOT_CN}
+      - ROOT_CN=POCVPN
       - SERVER_DOMAIN=${SERVER_DOMAIN}
       - VPN_IP_CDR=${VPN_IP_CDR}
-      - VPN_DNS=${VPN_DNS}
+      - VPN_DNS=${DOCKER_PUBLIC_IP}
   dns:
     build: 
       context: ./DNS/
