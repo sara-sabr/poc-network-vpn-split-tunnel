@@ -1,5 +1,6 @@
+version: '3'
 services:
-  vpn:
+  itrp.poc.network.vpn:
     build: 
       context: ./VPN/
     image: itrp.poc.network.vpn:latest
