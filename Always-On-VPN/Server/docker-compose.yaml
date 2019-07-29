@@ -17,7 +17,7 @@ services:
     image: itrp.poc.network.dns:latest
     ports:
     - "${DOCKER_PUBLIC_IP}:53:53/udp"
-    - "${DOCKER_PUBLIC_IP}"53:53/tcp"
+    - "${DOCKER_PUBLIC_IP}:53:53/tcp"
     
 
 
