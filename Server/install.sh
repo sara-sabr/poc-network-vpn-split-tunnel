@@ -12,6 +12,10 @@ sudo ufw allow 53
 sudo ufw allow 500,4500/udp
 sudo ufw enable 
 
+sudo sed -i '\/net\/ipv4\/ip_forward/s/^#//g'  /etc/ufw/sysctl.conf
+echo "net/ipv4/conf/all/send_redirects=0
+net/ipv4/ip_no_pmtu_disc=1"  | sudo tee -a /etc/ufw/sysctl.conf
+
 # Install Git to do the pull down since we have no docker repo
 sudo apt install git-core -y
 
