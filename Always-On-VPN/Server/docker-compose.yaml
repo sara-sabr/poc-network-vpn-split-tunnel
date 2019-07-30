@@ -1,0 +1,28 @@
+version: '3'
+services:
+  itrp.poc.network.vpn:
+    build: 
+      context: ./VPN/
+    depends_on:
+      - itrp.poc.network.dns
+    image: itrp.poc.network.vpn:latest
+    privileged: true
+    volumes:
+      - ./config:/poc-data/
+      - /lib/modules:/lib/modules
+      - /etc/localtime:/etc/localtime      
+    ports:
+      - "${DOCKER_PUBLIC_IP}:500:500/udp"
+      - "${DOCKER_PUBLIC_IP}:4500:4500/udp"
+    environment:
+      - ROOT_CN=POCVPN
+      - SERVER_DOMAIN=${SERVER_DOMAIN}
+      - VPN_IP_CDR=${VPN_IP_CDR}
+      - VPN_DNS=${DOCKER_PUBLIC_IP}
+  itrp.poc.network.dns:
+    build: 
+      context: ./DNS/
+    image: itrp.poc.network.dns:latest
+    ports:
+      - "${DOCKER_PUBLIC_IP}:53:53/udp"
+      - "${DOCKER_PUBLIC_IP}:53:53/tcp"
