@@ -20,7 +20,7 @@ mkdir -p ~/poc-setup
 cd ~/poc-setup
 
 # Checkout the code
-git clone https://github.com/sara-sabr/poc-network-vpn-split-tunnel-Azure.git
+git clone https://github.com/sara-sabr/poc-network-vpn-split-tunnel.git
 
 sudo chmod 700 start.sh
 sudo chmod 700 stop.sh
