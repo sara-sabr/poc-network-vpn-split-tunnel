@@ -18,4 +18,21 @@ export DOCKER_PUBLIC_IP=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' |
 docker-compose build
 docker-compose up -d
 
+while [ ! -f config/swan/ipsec.secrets ] | [ ! -f config/ipsec/cacerts/cacerts/ca-cert.pem ];
+do
+      sleep 2
+done
+
+echo "---------------------------------------------------------------------------------"
+echo "Connecting to VPN Details ..."
+echo "---------------------------------------------------------------------------------"
+
+echo "The Certificate you need locally as a computer trusted root is found in:"
+pwd config/ipsec/cacerts/cacerts/ca-cert.pem
+echo ""
+echo "The account password is (username : password) : "
+accountDetails=$(tail -n 1 config/swan/ipsec.secrets)
+accountDetails=${accountDetails//\"/ }
+accountDetails=${accountDetails// EAP / }
+echo "$accountDetails"
 
