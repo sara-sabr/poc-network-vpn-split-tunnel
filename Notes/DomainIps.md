@@ -22,3 +22,15 @@ To get a best effort list of IPs around the world for a domain name, the followi
 1. ```dig +short youtube.com```
 2. ```whois -h whois.radb.net [IP Address returned in #1] | grep -i origin```
 3. ```whois -h whois.radb.net -- '-i origin [Text returned in #2]' | grep ^route```
+
+## YouTube
+
+While doing this Poc, research and experimentation on YouTube was done. The following material is heavily relevant to what was done as part of the PoC.
+
+- Google Global Cahce usage described in [this paper](https://vaibhavbajpai.com/documents/papers/proceedings/youtube-load-balancing-pam-2018.pdf).
+- [Where Google DNS are locationed](https://developers.google.com/speed/public-dns/faq#locations)
+- [Google FAQ on Peering](https://peering.google.com/#/learn-more/faq)
+- [Reverse Engineering YouTube](https://tyrrrz.me/Blog/Reverse-engineering-YouTube)
+
+1. 
+A nice paper about how the Global Cache works in relation to Youtube. 
