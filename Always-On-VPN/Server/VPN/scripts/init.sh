@@ -104,8 +104,8 @@ conn ikev2-vpn
     rightdns=$VPN_DNS
     rightsendcert=never
     eap_identity=%identity
-    ike=aes128gcm16-prfsha384-ecp25
-    esp=aes128gcm16-ecp256,aes128-sha2_512-prfsha512-ecp256!
+    ike=aes256gcm16-prfsha512-ecp384,aes256-sha2_512-prfsha512-ecp384,aes256-sha2_384-prfsha384-ecp384!
+    esp=aes256gcm16-ecp384,aes256-sha2_512-prfsha512-ecp384!
 " >> $SWAN_SOURCE_DIRECTORY/$SWAN_IPSEC_CONF   
 fi
 
