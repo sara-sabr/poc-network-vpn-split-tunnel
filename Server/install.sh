@@ -28,6 +28,7 @@ cd ~/poc-setup
 # Checkout the code
 git clone https://github.com/sara-sabr/poc-network-vpn-split-tunnel.git
 
+cd poc-network-vpn-split-tunnel/Server
 sudo chmod 700 start.sh
 sudo chmod 700 stop.sh
 sudo ./start.sh
