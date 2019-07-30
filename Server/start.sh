@@ -32,8 +32,4 @@ echo "The Certificate you need locally as a computer trusted root is found in:"
 pwd config/ipsec/cacerts/cacerts/ca-cert.pem
 echo ""
 echo "The account password is (username : password) : "
-accountDetails=$(tail -n 1 config/swan/ipsec.secrets)
-accountDetails=${accountDetails//\"/ }
-accountDetails=${accountDetails// EAP / }
-echo "$accountDetails"
-
+echo $accountDetails | sed -e "s/\"//g" | sed -e "s/: EAP/:/g"
