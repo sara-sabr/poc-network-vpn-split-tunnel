@@ -2,7 +2,7 @@
 
 if [ -z "$SERVER_DOMAIN" ]; then
     echo "Please set environment variable 'SERVER_DOMAIN'."
-    read -p "Specify Domain Name :" SERVER_DOMAIN    
+    read -p "Specify VPN HOST Name :" SERVER_DOMAIN    
     export SERVER_DOMAIN
 fi
 
