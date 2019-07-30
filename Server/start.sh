@@ -18,7 +18,7 @@ export DOCKER_PUBLIC_IP=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' |
 docker-compose build
 docker-compose up -d
 
-while [ ! -f config/swan/ipsec.secrets ] | [ ! -f config/ipsec/cacerts/ca-cert.pem ];
+while [ ! -f config/swan/ipsec.secrets ] | [ ! -f config/pki/cacerts/ca-cert.pem ];
 do
     echo "Waiting on VPN container to be ready ... "
     sleep 2
