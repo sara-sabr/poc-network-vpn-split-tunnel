@@ -9,6 +9,8 @@ services:
     privileged: true
     volumes:
       - ./config:/poc-data/
+      - /lib/modules:/lib/modules
+      - /etc/localtime:/etc/localtime      
     ports:
       - "${DOCKER_PUBLIC_IP}:500:500/udp"
       - "${DOCKER_PUBLIC_IP}:4500:4500/udp"
@@ -17,7 +19,6 @@ services:
       - SERVER_DOMAIN=${SERVER_DOMAIN}
       - VPN_IP_CDR=${VPN_IP_CDR}
       - VPN_DNS=${DOCKER_PUBLIC_IP}
-    network_mode: "host"
   itrp.poc.network.dns:
     build: 
       context: ./DNS/
