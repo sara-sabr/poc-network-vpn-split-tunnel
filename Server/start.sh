@@ -29,7 +29,7 @@ echo "Connecting to VPN Details ..."
 echo "---------------------------------------------------------------------------------"
 
 echo "The Certificate you need locally as a computer trusted root is found in:"
-pwd config/ipsec/cacerts/cacerts/ca-cert.pem
+realpath config/pki/cacerts/ca-cert.pem
 echo ""
 echo "The account password is (username : password) : "
 echo $accountDetails | sed -e "s/\"//g" | sed -e "s/: EAP/:/g"
