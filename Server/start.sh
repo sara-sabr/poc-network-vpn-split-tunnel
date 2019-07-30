@@ -32,4 +32,4 @@ echo "The Certificate you need locally as a computer trusted root is found in:"
 realpath config/pki/cacerts/ca-cert.pem
 echo ""
 echo "The account password is (username : password) : "
-echo $accountDetails | sed -e "s/\"//g" | sed -e "s/: EAP/:/g"
+echo $(tail -n 1 config/swan/ipsec.secrets) | sed -e "s/\"//g" | sed -e "s/: EAP/:/g"
