@@ -31,7 +31,7 @@ When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass 
 
 ![Split tunnel vs non-split tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/routing-ip.png)
 
--- 
+--
 
 ### Configuring Split Tunnel by Routing Domain
 
