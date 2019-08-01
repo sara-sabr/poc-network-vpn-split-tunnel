@@ -7,7 +7,7 @@ VPN Split Tunnel (Inverse)
 
 ## The Idea
 
-When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass the VPN.
+When connected to VPN, can we allow YouTube and Facebook traffic to bypass the VPN?
 
 
 --
@@ -78,8 +78,20 @@ What did we learn?
     - Canada is roughly specifc IPs of 172.217.0.0/16
         
 - Google video streaming has a domain of *.googlevideo.com
-    - Google Caching has implications on geolocation and even ISPs
+    - Google Global Caching (GCC) has implications on geolocation and even ISPs
     - Subdomains are generated on the fly. Forcing targetted specific IPs on this domain is problematic 
+
+--
+
+### Recommendation
+
+- Unless we can get inverse split tunnel based on domain names, IP selection will be problematic.
+    - Requires COTS products.
+    - Microsoft Always On VPN only does split tunnel and not inverse split tunnel
+- Sandbox internet browsing option through a VM
+    - This topic moved to multiple laptop discussion as options better aligned there.
+- Facebook offloading has similar issues.
+
 
 --
 
@@ -94,6 +106,10 @@ What did we learn?
 ---
 
 ## Demo
+
+![GitHub Octocat](https://github.githubassets.com/images/modules/logos_page/Octocat.png)
+[https://github.com/sara-sabr/poc-network-vpn-split-tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel)
+
 
 ---
 
