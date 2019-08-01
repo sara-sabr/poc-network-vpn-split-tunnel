@@ -39,11 +39,11 @@ When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass 
 
 ### Configuring Split Tunnel by Routing Domain
 
-![Split tunnel vs non-split tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/routing-domain.png)
-
 - Not all vendor solutions support this. Initial scan resulted in:
     - [Cisco AnyConnect](https://www.cisco.com/c/en/us/td/docs/security/asa/asa91/asdm71/vpn/asdm_71_vpn_config/vpn_asdm_dap.html#15525)
     - [Paloaltonetworks](https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-new-features/globalprotect-features/split-tunnel-for-public-applications#)
+
+![Split tunnel vs non-split tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/routing-domain.png)
 
 
 ---
