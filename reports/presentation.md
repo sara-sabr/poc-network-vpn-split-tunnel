@@ -25,13 +25,13 @@ When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass 
 **Inverse split tunnel**
 - All traffic goes through VPN and network administrator whitelisting traffic to not go through VPN.
 
---- 
+-- 
 
 ### Configuring Split Tunnel by Routing IP
 
 ![Split tunnel vs non-split tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/routing-ip.png)
 
---- 
+-- 
 
 ### Configuring Split Tunnel by Routing Domain
 
@@ -43,12 +43,11 @@ When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass 
 
 ---
 
-
 ## The Outcome
 
  VPN solutions in general support split tunnel. Support for inverse split tunnel is limited as the practice is to whitelist what needs to go through VPN and not the other way around. 
 
--- 
+--
 
  ### Microsoft Always On VPN
 
