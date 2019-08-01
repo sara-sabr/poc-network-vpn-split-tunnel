@@ -25,7 +25,7 @@ When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass 
 **Inverse split tunnel**
 - All traffic goes through VPN and network administrator whitelisting traffic to not go through VPN.
 
--- 
+--
 
 ### Configuring Split Tunnel by Routing IP
 
@@ -49,7 +49,7 @@ When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass 
 
 --
 
- ### Microsoft Always On VPN
+### Microsoft Always On VPN
 
  As of Window 10 1709. we now have [Always On VPN](https://docs.microsoft.com/en-us/windows-server/remote/remote-access/vpn/always-on-vpn/always-on-vpn-technology-overview) that has useful [features](https://docs.microsoft.com/en-us/windows-server/remote/remote-access/vpn/vpn-map-da).
  - Apply rules to individual applications.
