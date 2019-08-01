@@ -67,6 +67,30 @@ When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass 
 
 ## The Findings
 
+What did we learn?
+
+--
+
+### Google's YouTube
+
+- Google **shared** IP address pool for all their services in **mulitple** ranges.
+    - Globally [400+](https://bgp.he.net/AS15169#_prefixes) ranges.
+    - Canada is roughly specifc IPs of 172.217.0.0/16
+        
+- Google video streaming has a domain of *.googlevideo.com
+    - Google Caching has implications on geolocation and even ISPs
+    - Subdomains are generated on the fly. Forcing targetted specific IPs on this domain is problematic 
+
+--
+
+### References 
+
+- Google Global Cache usage described in [this paper](https://vaibhavbajpai.com/documents/papers/proceedings/youtube-load-balancing-pam-2018.pdf).
+- [Where Google DNS are locationed](https://developers.google.com/speed/public-dns/faq#locations)
+- [Google FAQ on Peering](https://peering.google.com/#/learn-more/faq)
+- [Reverse Engineering YouTube](https://tyrrrz.me/Blog/Reverse-engineering-YouTube)
+
+
 ---
 
 ## Demo
