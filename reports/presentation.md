@@ -41,11 +41,12 @@ When an user is on the VPN, can we allow YouTube and Facebook traffic to bypass 
     - [Cisco AnyConnect](https://www.cisco.com/c/en/us/td/docs/security/asa/asa91/asdm71/vpn/asdm_71_vpn_config/vpn_asdm_dap.html#15525)
     - [Paloaltonetworks](https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-new-features/globalprotect-features/split-tunnel-for-public-applications#)
 
+
 ---
 
 ## The Outcome
 
- VPN solutions in general support split tunnel. Support for inverse split tunnel is limited as the practice is to whitelist what needs to go through VPN and not the other way around. 
+ VPN solutions in general support split tunnel. Support for inverse split tunnel is limited as the practice is to whitelist what needs to go through VPN and not the other way around.
 
 --
 
