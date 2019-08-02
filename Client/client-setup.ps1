@@ -84,9 +84,79 @@ $ProfileXML =
   <Route>
     <Address>209.85.225.0</Address> <!-- *.googlevideo.com -->
     <PrefixSize>24</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>
+    <ExclusionRoute>true</ExclusionRoute>        
   </Route>
-
+  <Route>
+    <Address>64.68.96.0</Address> <!-- webex -->
+    <PrefixSize>19</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>66.114.160.0</Address> <!-- webex -->
+    <PrefixSize>20</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>66.163.32.0</Address> <!-- webex -->
+    <PrefixSize>19</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>170.133.128.0</Address> <!-- webex -->
+    <PrefixSize>18</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>173.39.224.0</Address> <!-- webex -->
+    <PrefixSize>19</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>173.243.0.0</Address> <!-- webex -->
+    <PrefixSize>20</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>207.182.160.0</Address> <!-- webex -->
+    <PrefixSize>19</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>207.182.192.0</Address> <!-- webex -->
+    <PrefixSize>19</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>216.151.128.0</Address> <!-- webex -->
+    <PrefixSize>19</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>114.29.192.0</Address> <!-- webex -->
+    <PrefixSize>19</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>210.4.192.0</Address> <!-- webex -->
+    <PrefixSize>20</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>69.26.176.0</Address> <!-- webex -->
+    <PrefixSize>20</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>62.109.192.0</Address> <!-- webex -->
+    <PrefixSize>18</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  <Route>
+    <Address>69.26.160.0</Address> <!-- webex -->
+    <PrefixSize>20</PrefixSize>
+    <ExclusionRoute>true</ExclusionRoute>        
+  </Route>
+  
   <AlwaysOn>false</AlwaysOn>
   <RememberCredentials>true</RememberCredentials>
   <DomainNameInformation>
