@@ -55,123 +55,34 @@ $ProfileXML =
     <PrefixSize>0</PrefixSize>
   </Route>
 
-  <!-- Some Google IP -->
+  <!-- Let localhost through -->
   <Route>
-    <Address>173.194.0.0</Address>  <!-- youtube.com -->
-    <PrefixSize>16</PrefixSize>
+    <Address>127.0.0.1</Address>
+    <PrefixSize>32</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
-  <Route>
-    <Address>172.217.13.0</Address> <!-- youtube.com -->
-    <PrefixSize>24</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>
-  </Route>
+
   <Route>
     <Address>8.8.8.8</Address> <!-- Google DNS -->
     <PrefixSize>32</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
   <Route>
-    <Address>96.21.0.0</Address> <!-- *.googlevideo.com (Videotron) -->
-    <PrefixSize>24</PrefixSize>
+    <Address>8.8.4.4</Address> <!-- Google DNS -->
+    <PrefixSize>32</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
-  <Route>
-    <Address>96.22.0.0</Address> <!-- *.googlevideo.com (Videotron) -->
-    <PrefixSize>24</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>
-  </Route>
-  <Route>
-    <Address>209.85.225.0</Address> <!-- *.googlevideo.com -->
-    <PrefixSize>24</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>64.68.96.0</Address> <!-- webex -->
-    <PrefixSize>19</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>66.114.160.0</Address> <!-- webex -->
-    <PrefixSize>20</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>66.163.32.0</Address> <!-- webex -->
-    <PrefixSize>19</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>170.133.128.0</Address> <!-- webex -->
-    <PrefixSize>18</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>173.39.224.0</Address> <!-- webex -->
-    <PrefixSize>19</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>173.243.0.0</Address> <!-- webex -->
-    <PrefixSize>20</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>207.182.160.0</Address> <!-- webex -->
-    <PrefixSize>19</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>207.182.192.0</Address> <!-- webex -->
-    <PrefixSize>19</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>216.151.128.0</Address> <!-- webex -->
-    <PrefixSize>19</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>114.29.192.0</Address> <!-- webex -->
-    <PrefixSize>19</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>210.4.192.0</Address> <!-- webex -->
-    <PrefixSize>20</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>69.26.176.0</Address> <!-- webex -->
-    <PrefixSize>20</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>62.109.192.0</Address> <!-- webex -->
-    <PrefixSize>18</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  <Route>
-    <Address>69.26.160.0</Address> <!-- webex -->
-    <PrefixSize>20</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  
   <AlwaysOn>false</AlwaysOn>
   <RememberCredentials>true</RememberCredentials>
   <DomainNameInformation>
     <DomainName>' + $InternalDomainName + '</DomainName>
     <DnsServers>' + $DnsServers + '</DnsServers>
   </DomainNameInformation>
-  <TrafficFilter>
-    <!-- Send everyting to VPN when using Firefox -->
-    <App>
-      <Id>%ProgramFiles%\Mozilla Firefox\firefox.exe</Id>
-    </App>
-    <Protocol>6</Protocol>
-    <RemoteAddressRanges>1.1.1.1-255.255.255.255</RemoteAddressRanges>
-    <RoutingPolicyType>ForceTunnel</RoutingPolicyType> 
-  </TrafficFilter>
+  <Proxy>
+    <Manual>  
+      <Server>127.0.0.1:3128</Server>  
+    </Manual>  
+  </Proxy>  
 </VPNProfile>'
 
 # Properly escape the variables to be used later.
