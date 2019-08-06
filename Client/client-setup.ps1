@@ -23,6 +23,11 @@
 # Parameters 
 param([String]$DomainName, [String]$DnsServers)
 
+$SquidVersion = "3.5.25"
+
+Write-Host "----------- Progress ----------"
+Write-Host "1. Configuring Always On VPN ..."
+
 # Settings
 $ProfileName = 'Always-On-VPN-PoC'
 $Servers = 'pocvpn.' + $DomainName
@@ -104,12 +109,12 @@ try
     $sid = $objuser.Translate([System.Security.Principal.SecurityIdentifier])
     $SidValue = $sid.Value
     $Message = "User SID is $SidValue."
-    Write-Host "$Message"
+    Write-Host "    $Message"
 }
 catch [Exception]
 {
     $Message = "Unable to get user SID. User may be logged on over Remote Desktop: $_"
-    Write-Host "$Message"
+    Write-Host "    $Message"
     exit
 }
 
@@ -130,17 +135,17 @@ try
     {
     	$session.DeleteInstance($namespaceName, $deleteInstance, $options)
     	$Message = "Removed $ProfileName profile. Instance ID $InstanceId"
-    	Write-Host "$Message"
+    	Write-Host "    $Message"
     } else {
     	$Message = "Ignoring existing VPN profile $InstanceId"
-    	Write-Host "$Message"
+    	Write-Host "    $Message"
     }
   }
 }
 catch [Exception]
 {
   $Message = "Unable to remove existing outdated instance(s) of $ProfileName profile: $_"
-  Write-Host "$Message"
+  Write-Host "    $Message"
   exit
 }
 
@@ -157,14 +162,41 @@ try
   $session.CreateInstance($namespaceName, $newInstance, $options)
   $Message = "Created $ProfileName profile."
 
-  Write-Host "$Message"
+  Write-Host "    $Message"
 }
 catch [Exception]
 {
     $Message = "Unable to create $ProfileName profile: $_"
-    Write-Host "$Message"
+    Write-Host "    $Message"
     exit
 }
 
 $Message = "Script Complete"
-Write-Host "$Message"
+Write-Host "    $Message"
+
+$SquidServiceMeasure = Get-Service -Name "Squid For Windows" | Measure-Object
+
+if ($SquidServiceMeasure.Count -eq 1) {
+  Write-Host "2. Squid Found, so skipping."
+}
+else {
+  Write-Host "2. Installing Squid ..."
+  Remove-Item artifacts -Recurse -ErrorAction Ignore
+  New-Item -Name artifacts -ItemType directory -ErrorAction Continue
+  $msiFile = "http://packages.diladele.com/squid/$SquidVersion/squid.msi"
+  Write-Host $msiFile
+  Invoke-WebRequest "$msiFile" -OutFile artifacts/squid.msi
+  MSIEXEC /i artifacts/squid.msi /qn /log artifacts/install_log.txt ROOTDRIVE=C:\  
+
+  Write-Host "3. [Re]Configure Squid ..."
+  Copy-Item -Path squid\squid.conf -Destination C:\Squid\etc\squid\squid.conf -Force
+  Copy-Item -Path squid\realIp.conf -Destination C:\Squid\etc\squid\realIp.conf -Force
+  Copy-Item -Path squid\whitelist.conf -Destination C:\Squid\etc\squid\whitelist.conf -Force
+  Copy-Item -Path squid\updateSquid.ps1 -Destination C:\Squid\updateSquid.ps1 -Force 
+
+  Write-Host "4. Add Windows Task ..."
+  Register-ScheduledTask -xml (Get-Content '.\squid\PoC - Update Network for Squid.xml' | Out-String) -TaskName "PoC - Update Network for Squid" -User "NT AUTHORITY\SYSTEM" –Force
+}
+
+
+
