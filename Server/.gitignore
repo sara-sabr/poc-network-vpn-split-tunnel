@@ -1,2 +1,3 @@
 config/**
+Client/artifacts/**
 !config/README.md
