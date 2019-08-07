@@ -1,5 +1,5 @@
 # Network Research
-VPN Split Tunnel (Inverse)
+VPN - Offloading YouTube and Facebook
 
 ![IT Research and Prototyping](https://github.com/sara-sabr/ITResearch-Prototyping/raw/master/assets/img/RP_Logo_Wordmark-EN.png)
 
