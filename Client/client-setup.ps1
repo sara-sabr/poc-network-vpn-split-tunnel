@@ -174,29 +174,33 @@ catch [Exception]
 $Message = "Script Complete"
 Write-Host "    $Message"
 
-$SquidServiceMeasure = Get-Service -Name "Squid For Windows" | Measure-Object
+$SquidServiceMeasure =  Get-Service -Name "squidsrv" -ErrorAction SilentlyContinue | Measure-Object
 
 if ($SquidServiceMeasure.Count -eq 1) {
   Write-Host "2. Squid Found, so skipping."
 }
 else {
-  Write-Host "2. Installing Squid ..."
+  Write-Host "2.A. Downloading Squid ..."
   Remove-Item artifacts -Recurse -ErrorAction Ignore
   New-Item -Name artifacts -ItemType directory -ErrorAction Continue
   $msiFile = "http://packages.diladele.com/squid/$SquidVersion/squid.msi"
-  Write-Host $msiFile
-  Invoke-WebRequest "$msiFile" -OutFile artifacts/squid.msi
-  MSIEXEC /i artifacts/squid.msi /qn /log artifacts/install_log.txt ROOTDRIVE=C:\  
-
-  Write-Host "3. [Re]Configure Squid ..."
-  Copy-Item -Path squid\squid.conf -Destination C:\Squid\etc\squid\squid.conf -Force
-  Copy-Item -Path squid\realIp.conf -Destination C:\Squid\etc\squid\realIp.conf -Force
-  Copy-Item -Path squid\whitelist.conf -Destination C:\Squid\etc\squid\whitelist.conf -Force
-  Copy-Item -Path squid\updateSquid.ps1 -Destination C:\Squid\updateSquid.ps1 -Force 
-
-  Write-Host "4. Add Windows Task ..."
-  Register-ScheduledTask -xml (Get-Content '.\squid\PoC - Update Network for Squid.xml' | Out-String) -TaskName "PoC - Update Network for Squid" -User "NT AUTHORITY\SYSTEM" –Force
+  Invoke-WebRequest "$msiFile" -OutFile artifacts/squid.msi | Out-Null
+  Write-Host "2.A. Installing Squid ..."
+  MSIEXEC /i artifacts\squid.msi /qn /log artifacts\install_log.txt ROOTDRIVE=C:\  | Out-Null
 }
 
+Write-Host "3. Configure Squid ..."
+Copy-Item -Path squid\squid.conf -Destination C:\Squid\etc\squid\squid.conf -Force
+Copy-Item -Path squid\realIp.conf -Destination C:\Squid\etc\squid\realIp.conf -Force
+Copy-Item -Path squid\whitelist.conf -Destination C:\Squid\etc\squid\whitelist.conf -Force
+Copy-Item -Path squid\updateSquid.ps1 -Destination C:\Squid\updateSquid.ps1 -Force 
 
+Remove-Variable -Name "errorNotFound" -ErrorAction SilentlyContinue
+Get-ScheduledTask -TaskName "PoC - Update Network for Squid" -ErrorVariable errorNotFound -ErrorAction SilentlyContinue | Out-Null
 
+if ($errorNotFound) {
+  Write-Host "4. Add Windows Schedule Task ..."
+  $taskData = Get-Content '.\squid\PoC - Update Network for Squid.xml' | Out-String
+  Register-ScheduledTask -xml $taskData -TaskName "PoC - Update Network for Squid" -User "NT AUTHORITY\SYSTEM" -Force
+  New-EventLog -Source POC-Always-On-VPN -LogName POC-Always-On-VPN
+} 
