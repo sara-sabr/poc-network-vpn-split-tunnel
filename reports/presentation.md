@@ -28,7 +28,13 @@ Network administrator configures VPN connection by __whitelisting__ traffic to g
 ### Apporach #1 - Results
 
 **Configuring Split Tunnel by Routing IP**
-![Split Tunel by IP](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/routing-ip.png)
+
+- The [industry standard](https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml) for private networking are:
+  - *10.0.0.0* to *10.255.255.255*
+  - *172.16.0.0* to *172.31.255.255*
+  - *192.168.0.0* to *192.168.255.255*
+- Just configuring these IPs would result in everything else going to the internet. 
+  - Excluding YouTube and Facebook results in a large amount of ranges that will not be  sustainable.
 
 ---
 
@@ -40,13 +46,20 @@ All traffic goes through VPN and network administrator whitelisting traffic to _
 
 ### Apporach #2 - Description
 
-Content...
+![Inverse Split-Tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/approach2-ip.png)
 
 --
 
 ### Apporach #2 - Results
 
-Content...
+- Google **shared** IP address pool for all their services in **mulitple** ranges.
+  - Globally [400+](https://bgp.he.net/AS15169#_prefixes) ranges.
+  - Canada is roughly specifc IPs of 172.217.0.0/16
+
+- Google video streaming has a domain of *.googlevideo.com
+  - Google Global Caching (GCC) has implications on geolocation and even ISPs
+  - Subdomains are generated on the fly. Forcing targetted specific IPs on this domain is problematic 
+- We really want to look at domain names to decide whether it goes to internet or VPN.
 
 ---
 
@@ -59,23 +72,34 @@ Content...
 
 ### Approach #3 - Description
 
-Content...
+
+![Inverse Split-Tunnel with Proxy](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/approach3-domain.png)
 
 --
 
 ### Approach #3 - Results
 
-Content...
+- Maintenance was extremely simple
+- Can track what employees access in log file 
+- Proxy is only active during VPN connection
 
 ---
 
 ## Demo
 
-Let's see approach 3 in action.
+Let's see Approach #3 in action.
 
 --
 
 ### Demo - Technology Stack
+
+- Client 
+  - Microsoft Always-On-VPN for VPN software
+  - [Squid Proxy](http://www.squid-cache.org/) as Proxy
+- Server
+  - Docker containers for:
+    - DNS - [Unbound](https://nlnetlabs.nl/projects/unbound/about/)
+    - VPN Server - [strongSwan](https://www.strongswan.org/) using IKEv2 
 
 --
 
@@ -89,32 +113,11 @@ Let's see approach 3 in action.
 
 ---
 
-## The Findings
-
-What did we learn?
-
---
-
-### Google's YouTube
-
-- Google **shared** IP address pool for all their services in **mulitple** ranges.
-  - Globally [400+](https://bgp.he.net/AS15169#_prefixes) ranges.
-  - Canada is roughly specifc IPs of 172.217.0.0/16
-
-- Google video streaming has a domain of *.googlevideo.com
-  - Google Global Caching (GCC) has implications on geolocation and even ISPs
-  - Subdomains are generated on the fly. Forcing targetted specific IPs on this domain is problematic 
-
---
-
 ## Recommendation
 
-- Unless we can get inverse split tunnel based on domain names, IP selection will be problematic.
-  - Requires COTS products.
-  - Microsoft Always On VPN only does split tunnel and not inverse split tunnel
-- Sandbox internet browsing option through a VM
-  - This topic moved to multiple laptop discussion as options better aligned there.
-- Facebook offloading has similar issues.
+- Both split tunnel and a proxy while a VPN is active worked well
+- The proxy software for the client needs to be selected as the proof of concept version is 2 years old.
+  - Vendor having issues porting Squid to Windows
 
 --
 
