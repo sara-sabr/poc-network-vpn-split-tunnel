@@ -23,6 +23,11 @@
 # Parameters 
 param([String]$DomainName, [String]$DnsServers)
 
+$SquidVersion = "3.5.25"
+
+Write-Host "----------- Progress ----------"
+Write-Host "1. Configuring Always On VPN ..."
+
 # Settings
 $ProfileName = 'Always-On-VPN-PoC'
 $Servers = 'pocvpn.' + $DomainName
@@ -55,37 +60,24 @@ $ProfileXML =
     <PrefixSize>0</PrefixSize>
   </Route>
 
-  <!-- Some Google IP -->
+  <!-- Let localhost through -->
   <Route>
-    <Address>173.194.0.0</Address>  <!-- youtube.com -->
-    <PrefixSize>16</PrefixSize>
+    <Address>127.0.0.1</Address>
+    <PrefixSize>32</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
-  <Route>
-    <Address>172.217.13.0</Address> <!-- youtube.com -->
-    <PrefixSize>24</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>
-  </Route>
+
   <Route>
     <Address>8.8.8.8</Address> <!-- Google DNS -->
     <PrefixSize>32</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
   <Route>
-    <Address>96.21.0.0</Address> <!-- *.googlevideo.com (Videotron) -->
-    <PrefixSize>24</PrefixSize>
+    <Address>8.8.4.4</Address> <!-- Google DNS -->
+    <PrefixSize>32</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>
   </Route>
-  <Route>
-    <Address>96.22.0.0</Address> <!-- *.googlevideo.com (Videotron) -->
-    <PrefixSize>24</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>
-  </Route>
-  <Route>
-    <Address>209.85.225.0</Address> <!-- *.googlevideo.com -->
-    <PrefixSize>24</PrefixSize>
-    <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
+
   <Route>
     <Address>64.68.96.0</Address> <!-- webex -->
     <PrefixSize>19</PrefixSize>
@@ -155,23 +147,18 @@ $ProfileXML =
     <Address>69.26.160.0</Address> <!-- webex -->
     <PrefixSize>20</PrefixSize>
     <ExclusionRoute>true</ExclusionRoute>        
-  </Route>
-  
+  </Route>  
   <AlwaysOn>false</AlwaysOn>
   <RememberCredentials>true</RememberCredentials>
   <DomainNameInformation>
     <DomainName>' + $InternalDomainName + '</DomainName>
     <DnsServers>' + $DnsServers + '</DnsServers>
   </DomainNameInformation>
-  <TrafficFilter>
-    <!-- Send everyting to VPN when using Firefox -->
-    <App>
-      <Id>%ProgramFiles%\Mozilla Firefox\firefox.exe</Id>
-    </App>
-    <Protocol>6</Protocol>
-    <RemoteAddressRanges>1.1.1.1-255.255.255.255</RemoteAddressRanges>
-    <RoutingPolicyType>ForceTunnel</RoutingPolicyType> 
-  </TrafficFilter>
+  <Proxy>
+    <Manual>  
+      <Server>127.0.0.1:3128</Server>  
+    </Manual>  
+  </Proxy>  
 </VPNProfile>'
 
 # Properly escape the variables to be used later.
@@ -193,12 +180,12 @@ try
     $sid = $objuser.Translate([System.Security.Principal.SecurityIdentifier])
     $SidValue = $sid.Value
     $Message = "User SID is $SidValue."
-    Write-Host "$Message"
+    Write-Host "    $Message"
 }
 catch [Exception]
 {
     $Message = "Unable to get user SID. User may be logged on over Remote Desktop: $_"
-    Write-Host "$Message"
+    Write-Host "    $Message"
     exit
 }
 
@@ -219,17 +206,17 @@ try
     {
     	$session.DeleteInstance($namespaceName, $deleteInstance, $options)
     	$Message = "Removed $ProfileName profile. Instance ID $InstanceId"
-    	Write-Host "$Message"
+    	Write-Host "    $Message"
     } else {
     	$Message = "Ignoring existing VPN profile $InstanceId"
-    	Write-Host "$Message"
+    	Write-Host "    $Message"
     }
   }
 }
 catch [Exception]
 {
   $Message = "Unable to remove existing outdated instance(s) of $ProfileName profile: $_"
-  Write-Host "$Message"
+  Write-Host "    $Message"
   exit
 }
 
@@ -246,14 +233,45 @@ try
   $session.CreateInstance($namespaceName, $newInstance, $options)
   $Message = "Created $ProfileName profile."
 
-  Write-Host "$Message"
+  Write-Host "    $Message"
 }
 catch [Exception]
 {
     $Message = "Unable to create $ProfileName profile: $_"
-    Write-Host "$Message"
+    Write-Host "    $Message"
     exit
 }
 
 $Message = "Script Complete"
-Write-Host "$Message"
+Write-Host "    $Message"
+
+$SquidServiceMeasure =  Get-Service -Name "squidsrv" -ErrorAction SilentlyContinue | Measure-Object
+
+if ($SquidServiceMeasure.Count -eq 1) {
+  Write-Host "2. Squid Found, so skipping."
+}
+else {
+  Write-Host "2.A. Downloading Squid ..."
+  Remove-Item artifacts -Recurse -ErrorAction Ignore
+  New-Item -Name artifacts -ItemType directory -ErrorAction Continue
+  $msiFile = "http://packages.diladele.com/squid/$SquidVersion/squid.msi"
+  Invoke-WebRequest "$msiFile" -OutFile artifacts/squid.msi | Out-Null
+  Write-Host "2.A. Installing Squid ..."
+  MSIEXEC /i artifacts\squid.msi /qn /log artifacts\install_log.txt ROOTDRIVE=C:\  | Out-Null
+}
+
+Write-Host "3. Configure Squid ..."
+Copy-Item -Path squid\squid.conf -Destination C:\Squid\etc\squid\squid.conf -Force
+Copy-Item -Path squid\realIp.conf -Destination C:\Squid\etc\squid\realIp.conf -Force
+Copy-Item -Path squid\whitelist.conf -Destination C:\Squid\etc\squid\whitelist.conf -Force
+Copy-Item -Path squid\updateSquid.ps1 -Destination C:\Squid\updateSquid.ps1 -Force 
+
+Remove-Variable -Name "errorNotFound" -ErrorAction SilentlyContinue
+Get-ScheduledTask -TaskName "PoC - Update Network for Squid" -ErrorVariable errorNotFound -ErrorAction SilentlyContinue | Out-Null
+
+if ($errorNotFound) {
+  Write-Host "4. Add Windows Schedule Task ..."
+  $taskData = Get-Content '.\squid\PoC - Update Network for Squid.xml' | Out-String
+  Register-ScheduledTask -xml $taskData -TaskName "PoC - Update Network for Squid" -User "NT AUTHORITY\SYSTEM" -Force
+  New-EventLog -Source POC-Always-On-VPN -LogName POC-Always-On-VPN
+} 
