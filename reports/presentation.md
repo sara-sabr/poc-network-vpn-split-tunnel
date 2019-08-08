@@ -38,9 +38,9 @@ Network administrator configures VPN connection by __whitelisting__ traffic to g
 
 ---
 
-## Appraoch #2 - VPN Split Tunnel (Invrese)
+## Appraoch #2 - Inverse VPN Split Tunnel
 
-All traffic goes through VPN and network administrator whitelisting traffic to __not__ go through VPN.
+All traffic goes through VPN and network administrator whitelists traffic to __not__ go through VPN.
 
 --
 
@@ -63,10 +63,10 @@ All traffic goes through VPN and network administrator whitelisting traffic to _
 
 ---
 
-## Approach #3 - VPN Split Tunnel (Inverse) and Proxy
+## Approach #3 - Inverse VPN Split Tunnel Inverse and Proxy
 
-- All traffic goes through VPN and network administrator whitelisting traffic to __not__ go through VPN.
-- Use proxy to perform routing decisions as well 
+- All traffic goes through VPN and network administrator whitelists traffic to __not__ go through VPN.
+- In addition, proxy to perform traffic decisions by domain name
 
 --
 
@@ -94,8 +94,9 @@ Let's see Approach #3 in action.
 ### Demo - Technology Stack
 
 - Client 
-  - Microsoft Always-On-VPN for VPN software
-  - [Squid Proxy](http://www.squid-cache.org/) as Proxy
+  - VPN Software - Microsoft [Always On VPN](https://docs.microsoft.com/en-us/windows-server/remote/remote-access/vpn/always-on-vpn/always-on-vpn-technology-overview)
+  - Proxy - [Squid Proxy](http://www.squid-cache.org/) 
+  - Configuration - Windows scheduled task to detect when VPN is active
 - Server
   - Docker containers for:
     - DNS - [Unbound](https://nlnetlabs.nl/projects/unbound/about/)
@@ -115,11 +116,29 @@ Let's see Approach #3 in action.
 
 ## Recommendation
 
-- Both split tunnel and a proxy while a VPN is active worked well
-- The proxy software for the client needs to be selected as the proof of concept version is 2 years old.
-  - Vendor having issues porting Squid to Windows
+- Approach #3 - Inverse split tunnel VPN and proxy resulted in the best experience
+- We can log standard internet traffic information through use of the proxy
+  - This log could be uploaded to a on-premise central log server
 
 --
+
+### Futhur items 
+
+- The proof of concept leveraged Squid which appears to be 2 years old.
+  - Vendor having issues porting Squid to Windows from Linux
+  - Find another proxy software for Windows
+- Test VPN vendor implementations that supports similar configurations (high level scan)
+  - [Cisco AnyConnect](https://www.cisco.com/c/en/us/td/docs/security/asa/asa91/asdm71/vpn/asdm_71_vpn_config/vpn_asdm_dap.html#15525)
+  - [Paloaltonetworks](https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-new-features/globalprotect-features/split-tunnel-for-public-applications#)
+
+--
+
+### Run the demo yourself
+
+![GitHub Icon](https://github.githubassets.com/favicon.ico)
+[https://github.com/sara-sabr/poc-network-vpn-split-tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel)
+
+---
 
 ## References
 
