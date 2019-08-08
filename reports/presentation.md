@@ -129,14 +129,17 @@ Let's see **Approach #3** in action.
   - [Cisco AnyConnect](https://www.cisco.com/c/en/us/td/docs/security/asa/asa91/asdm71/vpn/asdm_71_vpn_config/vpn_asdm_dap.html#15525)
   - [Paloaltonetworks](https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-new-features/globalprotect-features/split-tunnel-for-public-applications#)
 
---
+---
 
-## Run the demo yourself
+## References
+
+Run the demo yourself
 
 ![GitHub Icon](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/github.png)
+
 [https://github.com/sara-sabr/poc-network-vpn-split-tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel)
 
----
+--
 
 ## References
 
