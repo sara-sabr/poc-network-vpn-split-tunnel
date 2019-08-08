@@ -54,8 +54,6 @@ All traffic goes through VPN and network administrator whitelists traffic to __n
 
 - Google **shared** IP address pool for all their services in **mulitple** ranges.
   - Globally [400+](https://bgp.he.net/AS15169#_prefixes) ranges.
-  - Canada is roughly specifc IPs of 172.217.0.0/16
-
 - Google video streaming has a domain of *.googlevideo.com
   - Google Global Caching (GCC) has implications on geolocation and even ISPs
   - Subdomains are generated on the fly. Forcing targetted specific IPs on this domain is problematic 
@@ -63,7 +61,7 @@ All traffic goes through VPN and network administrator whitelists traffic to __n
 
 ---
 
-## Approach #3 - Inverse VPN Split Tunnel Inverse and Proxy
+## Approach #3 - Inverse VPN Split Tunnel and Proxy
 
 - All traffic goes through VPN and network administrator whitelists traffic to __not__ go through VPN.
 - In addition, proxy to perform traffic decisions by domain name
@@ -87,7 +85,7 @@ All traffic goes through VPN and network administrator whitelists traffic to __n
 
 ## Demo
 
-Let's see Approach #3 in action.
+Let's see **Approach #3** in action.
 
 --
 
@@ -122,7 +120,7 @@ Let's see Approach #3 in action.
 
 --
 
-### Futhur items 
+### Further items 
 
 - The proof of concept leveraged Squid which appears to be 2 years old.
   - Vendor having issues porting Squid to Windows from Linux
@@ -133,9 +131,9 @@ Let's see Approach #3 in action.
 
 --
 
-### Run the demo yourself
+## Run the demo yourself
 
-![GitHub Icon](https://github.githubassets.com/favicon.ico)
+![GitHub Icon](https://github.com/sara-sabr/poc-network-vpn-split-tunnel/raw/master/reports/assets/github.png)
 [https://github.com/sara-sabr/poc-network-vpn-split-tunnel](https://github.com/sara-sabr/poc-network-vpn-split-tunnel)
 
 ---
