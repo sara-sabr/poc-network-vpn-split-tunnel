@@ -112,11 +112,13 @@ Let's see **Approach #3** in action.
 
 ---
 
-## Recommendation
+## Recommendation and Next Steps
 
 - Approach #3 - Inverse split tunnel VPN and proxy resulted in the best experience
-- We can log standard internet traffic information through use of the proxy
-  - This log could be uploaded to a on-premise central log server
+- Expand the approach  to address security concerns and enterprise support model
+    - Move the proxy to the cloud (can we limit the internet egress while retaining performance?)
+    - Leverage cloud threat monitoring solutioons (Suspicious traffic can be flagged)
+    - Analyze vendor capabilities for layered security approaches
 
 --
 
