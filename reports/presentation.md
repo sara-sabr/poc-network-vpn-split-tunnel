@@ -128,7 +128,7 @@ Let's see **Approach #3** in action.
   - Vendor having issues porting Squid to Windows from Linux
   - Find another proxy software for Windows
 - Test VPN vendor implementations that supports similar configurations (high level scan)
-  - [Cisco AnyConnect](https://www.cisco.com/c/en/us/td/docs/security/asa/asa91/asdm71/vpn/asdm_71_vpn_config/vpn_asdm_dap.html#15525)
+  - [Cisco AnyConnect - Configure Dynamic Split Exclude Tunneling](https://www.cisco.com/c/en/us/td/docs/security/asa/asa98/asdm78/vpn/asdm-78-vpn-config/vpn-asdm-setup.html#ariaid-title19)
   - [Paloaltonetworks](https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-new-features/globalprotect-features/split-tunnel-for-public-applications#)
 
 ---
