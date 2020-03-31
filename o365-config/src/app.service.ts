@@ -25,6 +25,10 @@ export class AppService {
     }
     tunnelForSplit.urls = tunnelForInverse.urls;
 
+    tunnelForSplit.ipv4TotalEntries = tunnelForSplit.ipv4.length;
+    tunnelForSplit.ipv6TotalEntries = tunnelForSplit.ipv6.length;
+    tunnelForSplit.urlsTotalEntries = tunnelForSplit.urls.length;
+
     return tunnelForSplit;
   }
 
@@ -37,17 +41,12 @@ export class AppService {
     var serviceUrl = 'https://endpoints.office.com/endpoints/' + instance + '?ClientRequestId=' + clientrequestid;
     if (serviceAreas.length > 0) {
       let serviceAreaString = serviceAreas.toString();
-
-      if (serviceAreas.indexOf(ServiceAreas.All) == -1) {
-        serviceUrl += '&ServiceAreas=' + serviceAreaString;
-      }
+      serviceUrl += '&ServiceAreas=' + serviceAreaString;
     }
 
     if (noIPv6) {
       serviceUrl += '&NoIPv6=' + noIPv6;
     }
-
-    console.log(serviceUrl);
 
     var o365DataResultObservable: Observable<AxiosResponse<O365Dto[]>> = this.httpService.get(
       serviceUrl,
@@ -101,6 +100,10 @@ export class AppService {
     for (var i of ipv6s.keys()) {
       tunnel.ipv6.push(i);
     }
+
+    tunnel.ipv4TotalEntries = tunnel.ipv4.length;
+    tunnel.ipv6TotalEntries = tunnel.ipv6.length;
+    tunnel.urlsTotalEntries = tunnel.urls.length;
 
     return tunnel;
   }

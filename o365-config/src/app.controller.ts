@@ -2,9 +2,10 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Tunnel } from './tunnel.dto';
 import { Version } from './version.dto';
-import { ApiResponse, ApiOkResponse, ApiBadRequestResponse, ApiQuery, ApiOperation } from '@nestjs/swagger';
+import { ApiOkResponse, ApiBadRequestResponse, ApiQuery, ApiOperation } from '@nestjs/swagger';
 import { ServiceAreas } from './o365.serviceAreas.enum';
 import { Instance } from './o365.instance.enum';
+import { uuid } from 'uuidv4';
 
 @Controller()
 export class AppController {
@@ -33,16 +34,16 @@ export class AppController {
   @Get("/split-tunnel")
   @ApiOkResponse({ description: 'Configuration for the tunnel.', type: Tunnel })
   @ApiBadRequestResponse({ description: 'Error.' })
-  @ApiQuery({ name: 'ServiceAreas', isArray: true, enum: ServiceAreas, description: 'A comma-separated list of service areas. Valid items are Common, Exchange, SharePoint, and Skype. Because Common service area items are a prerequisite for all other service areas, the web service always includes them. If you do not include this parameter, all service areas are returned' })
-  @ApiQuery({ name: 'Instance', enum: Instance, description: 'This required parameter specifies the instance from which to return the endpoints' })
-  @ApiQuery({ name: 'ClientRequestId', description: 'A required GUID that you generate for client association.' })
-  @ApiQuery({ name: 'NoIPv6', description: "Set the value to true to exclude IPv6 addresses from the output if you don't use IPv6 in your network." })
+  @ApiQuery({ name: 'ServiceAreas', isArray: true, enum: ServiceAreas, description: 'A comma-separated list of service areas. Valid items are Common, Exchange, SharePoint, and Skype. Because Common service area items are a prerequisite for all other service areas, the web service always includes them. If you do not include this parameter, all service areas are returned', required: false })
+  @ApiQuery({ name: 'Instance', enum: Instance, description: 'This required parameter specifies the instance from which to return the endpoints', required: false })
+  @ApiQuery({ name: 'ClientRequestId', description: 'A required GUID that you generate for client association.', required: true })
+  @ApiQuery({ name: 'NoIPv6', description: "Set the value to true to exclude IPv6 addresses from the output if you don't use IPv6 in your network.", required: false })
   @ApiOperation({
     summary: 'Split Tunnel Configuration',
     description: 'Returns the configuration in split tunnel format'
   })
   getSplitTunnelSettings(
-    @Query('ClientRequestId') clientRequestId: string,
+    @Query('ClientRequestId') clientRequestId: string = uuid(),
     @Query('ServiceAreas') serviceAreas: ServiceAreas[] = [],
     @Query('NoIPv6') noIPv6: boolean = false,
     @Query('Instance') instance: Instance = Instance.Worldwide
@@ -57,12 +58,12 @@ export class AppController {
   })
   @ApiOkResponse({ description: 'Configuration for the tunnel.', type: Tunnel })
   @ApiBadRequestResponse({ description: 'Error.' })
-  @ApiQuery({ name: 'ServiceAreas', isArray: true, enum: ServiceAreas, description: 'A comma-separated list of service areas. Valid items are Common, Exchange, SharePoint, and Skype. Because Common service area items are a prerequisite for all other service areas, the web service always includes them. If you do not include this parameter, all service areas are returned' })
-  @ApiQuery({ name: 'Instance', enum: Instance, description: 'This required parameter specifies the instance from which to return the endpoints' })
-  @ApiQuery({ name: 'ClientRequestId', description: 'A required GUID that you generate for client association.' })
-  @ApiQuery({ name: 'NoIPv6', description: "Set the value to true to exclude IPv6 addresses from the output if you don't use IPv6 in your network." })
+  @ApiQuery({ name: 'ServiceAreas', isArray: true, enum: ServiceAreas, description: 'A comma-separated list of service areas. Valid items are Common, Exchange, SharePoint, and Skype. Because Common service area items are a prerequisite for all other service areas, the web service always includes them. If you do not include this parameter, all service areas are returned', required: false })
+  @ApiQuery({ name: 'Instance', enum: Instance, description: 'This required parameter specifies the instance from which to return the endpoints', required: true })
+  @ApiQuery({ name: 'ClientRequestId', description: 'A required GUID that you generate for client association.', required: true })
+  @ApiQuery({ name: 'NoIPv6', description: "Set the value to true to exclude IPv6 addresses from the output if you don't use IPv6 in your network.", required: false })
   getInverseSplitTunnelSettings(
-    @Query('ClientRequestId') clientRequestId: string,
+    @Query('ClientRequestId') clientRequestId: string = uuid(),
     @Query('ServiceAreas') serviceAreas: ServiceAreas[] = [],
     @Query('NoIPv6') noIPv6: boolean = false,
     @Query('Instance') instance: Instance = Instance.Worldwide
